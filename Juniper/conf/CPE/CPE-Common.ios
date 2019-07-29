@@ -1,0 +1,45 @@
+upgrade fpd auto
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+boot-start-marker
+boot-end-marker
+
+no enable password
+
+aaa new-model
+ip domain name snt.co.uk
+ip cef
+no ipv6 cef
+multilink bundle-name authenticated
+
+archive
+ path disk0:/archive
+ write-memory
+file prompt quiet
+username automation privilege 15 password 0 auto1234
+
+redundancy
+ip scp server enable
+username automation password 0 auto1234
+
+redundancy
+ip forward-protocol nd
+no ip http server
+no ip http secure-server
+control-plane
+mgcp profile default
+gatekeeper
+ shutdown
+line con 0
+ password 1234
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ password auto1234
+ login
+ transport input telnet ssh
+
+end

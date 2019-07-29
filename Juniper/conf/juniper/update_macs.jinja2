@@ -1,0 +1,5 @@
+{% for item in macs %}
+ge-0/0/{{ item.id }} {
+    mac {{ item.mac }};
+}
+{% endfor %}

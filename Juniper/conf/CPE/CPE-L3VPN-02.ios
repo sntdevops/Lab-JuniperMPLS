@@ -1,0 +1,135 @@
+upgrade fpd auto
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CPE-L3VPN-02
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+aaa new-model
+!
+!
+aaa authentication login default local
+aaa authorization exec default local
+!
+!
+!
+!
+!
+aaa session-id common
+!
+!
+!
+!
+!
+!
+ip domain name snt.co.uk
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+!
+!
+archive
+ path disk0:/archive
+ write-memory
+username automation privilege 15 password 0 auto1234
+username a
+!
+redundancy
+!
+!
+ip scp server enable
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 10.121.0.1 255.255.255.0 secondary
+ ip address 10.122.0.1 255.255.255.0 secondary
+ ip address 10.123.0.1 255.255.255.0 secondary
+ ip address 10.120.0.1 255.255.255.0
+ ip ospf 1 area 0
+!
+interface FastEthernet0/0
+ no ip address
+ duplex half
+!
+interface FastEthernet0/0.302
+ encapsulation dot1Q 302
+ ip address 10.251.0.1 255.255.255.0
+ ip ospf 1 area 0
+!
+interface FastEthernet1/0
+ ip address 172.16.209.117 255.255.255.0
+ duplex half
+!
+interface FastEthernet2/0
+ no ip address
+ shutdown
+ duplex half
+!
+interface FastEthernet3/0
+ no ip address
+ shutdown
+ duplex half
+!
+interface FastEthernet4/0
+ no ip address
+ shutdown
+ duplex half
+!
+router ospf 1
+ router-id 2.2.2.2
+!
+ip forward-protocol nd
+no ip http server
+no ip http secure-server
+!
+!
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+!
+mgcp profile default
+!
+!
+!
+gatekeeper
+ shutdown
+!
+!
+line con 0
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ password auto1234
+ transport input telnet ssh
+!
+!
+end
